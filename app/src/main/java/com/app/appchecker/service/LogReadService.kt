@@ -1,4 +1,4 @@
-package com.app.appchecker
+package com.app.appchecker.service
 
 import android.app.Service
 import android.content.Intent
@@ -17,7 +17,8 @@ import android.os.Build
 import android.app.PendingIntent
 import androidx.core.app.NotificationCompat
 import android.content.Context
-
+import com.app.appchecker.MainActivity
+import com.app.appchecker.R
 
 
 class LogReadService : Service(){
@@ -28,7 +29,7 @@ class LogReadService : Service(){
     }
 
     inner class LocalBinder: Binder() {
-        fun getService(): LogReadService  = this@LogReadService
+        fun getService(): LogReadService = this@LogReadService
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -52,7 +53,7 @@ class LogReadService : Service(){
         return super.onStartCommand(intent, flags, startId)
     }
 
-    fun readLogs(){
+    private fun readLogs(){
         val logcat:Process = Runtime.getRuntime().exec(arrayOf("logcat", "-v threadtime D/VibratorService"))
         val logVibrate = StringBuilder()//StringBuilder logVibrate = new StringBuilder
         val br = BufferedReader(InputStreamReader(logcat.inputStream))
@@ -67,7 +68,7 @@ class LogReadService : Service(){
         }
     }
 
-    fun serviceNotification(){
+    private fun serviceNotification(){
         val builder = NotificationCompat.Builder(this, "1")
         builder.setSmallIcon(R.drawable.ic_check_black_24dp)
         val style = NotificationCompat.BigTextStyle()
